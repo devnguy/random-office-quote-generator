@@ -1,28 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import quotes from './quotes';
+// import logo from './logo.svg';
 import './App.css';
 
+
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.handleGenerateQuote = this.handleGenerateQuote.bind(this);
+    this.state = {
+      generatedQuote: quotes[getRandomInt(quotes.length)] 
+    };
+  };
+  handleGenerateQuote() {
+    this.setState(() => {
+      return {
+        generatedQuote: quotes[getRandomInt(quotes.length)] 
+      };
+    });
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Random Office Quote Generator</h1>
+        <div>
+          <button onClick={this.handleGenerateQuote}>Generate</button>
+        </div>
+
+        <div>
+          <QuoteContent generatedQuote={this.state.generatedQuote.quote} character={this.state.generatedQuote.character}/>
+        </div>
+
       </div>
     );
   }
 }
+
+const QuoteContent = (props) => (
+  <div>
+    <p>
+      {props.generatedQuote}
+    </p>
+    <p>
+      - {props.character}
+    </p>
+  </div>
+
+);
 
 export default App;
